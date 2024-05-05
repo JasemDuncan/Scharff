@@ -21,6 +21,7 @@ router.get("/products/:id",ProductController.one);
 router.delete("/products/:id",ProductController.deleteOne);
 router.post("/upload_image/:id",[uploads.single("file")],ProductController.uploadImage);
 router.get("/image/:file",ProductController.image);
+router.get("/search/:search",ProductController.search);
 
 
 module.exports = router;

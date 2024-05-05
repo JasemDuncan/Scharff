@@ -223,10 +223,7 @@ const uploadImage = (req, res) => {
 
 const image = (req, res) => {
     let fileData = req.params.file;
-    console.log(req.params);
-    console.log(fileData);
     let allPath = "./images/products/"+fileData;
-    console.log(allPath)
 
     fs.stat(allPath, (error, exists)=> {
         if(exists){
@@ -241,7 +238,37 @@ const image = (req, res) => {
 
 }
 
+const search = (req, res) => {
+    // Retreive the search string
+    let searchParam = req.params.search;
 
+    // Find Or
+    Product
+        .find({ "$or": [
+            { "name" : {"$regex": searchParam, "$options": "i"}},
+            { "description" : {"$regex": searchParam, "$options": "i"}}
+        ]})
+        .sort({date: -1})
+        .then(productsFound => {
+            if (!productsFound || productsFound.length === 0) {
+                return res.status(404).json({
+                    status: "error",
+                    message: "No products found"
+                });
+            }
+
+            return res.status(200).json({
+                status: "success",
+                products: productsFound
+            });
+        })
+        .catch(error => {
+            return res.status(500).json({
+                status: "error",
+                message: "Error searching products"
+            });
+        });
+};
 
 module.exports = {
     create,
@@ -250,6 +277,7 @@ module.exports = {
     deleteOne,
     update,
     uploadImage,
-    image
+    image,
+    search
 
 }
