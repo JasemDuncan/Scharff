@@ -1,14 +1,12 @@
 import { useState } from 'react'
-
+import { AllRoutes } from './routing/AllRoutes'
 function App() {
   
 
   return (
-    <>
-      <h1> REACT
-      </h1>
-
-    </>
+    <div className="layout">      
+      <AllRoutes/>
+    </div>
   )
 }
 
