@@ -24,7 +24,7 @@ To have a version on you local machine:
 - Search: GET https://localhost/api/search/:search
 
 ## ✒️ Frontend
-![screenshot](./main.png)
+![screenshot](main.png)
 
 ## 💻 Deployment
 ### With Docker
