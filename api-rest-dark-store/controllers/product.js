@@ -1,51 +1,51 @@
-const {validateProduct} = require("../helpers/validateProduct");
+const { validateProduct } = require("../helpers/validateProduct");
 const Product = require("../models/Product");
 const fs = require("fs");
 const path = require("path")
 
-const create = (req,res) => {
+const create = (req, res) => {
     //Retrieve fields
-    let parameters = req.body;    
+    let parameters = req.body;
 
     //Validate data with validator
     try {
-        validateProduct( parameters);
+        validateProduct(parameters);
     } catch (error) {
         return res.status(400).json({
             status: "error",
             menssage: "Missing parameter to send"
         })
-    }    
+    }
     //Create object to save
     const product = new Product(parameters);
     //Assign values to object according to the model
-    
+
     //Save
     product
         .save()
-        .then(productSave =>{
+        .then(productSave => {
             return res.status(200).json({
-                message: "Success",
+                status: "Success",
                 product: productSave,
-                message: "Product saved."    
+                message: "Product saved."
             });
         })
-        .catch(error => {
+        .catch(error => {            
             return res.status(400).json({
                 status: "error",
-                menssage: "Product was not saved."
+                message: "Product was not saved."
             })
-        })                                     
+        })
 }
 
-const list = (req, res) => {    
-    let query = 
+const list = (req, res) => {
+    let query =
         Product
-        .find({});
-        if(req.params.last){ query.limit(req.params.last)}
-        
-        query
-        .sort({date: -1})
+            .find({});
+    if (req.params.last) { query.limit(req.params.last) }
+
+    query
+        .sort({ date: -1 })
         .then(products => {
             if (!products || products.length === 0) {
                 return res.status(404).json({
@@ -127,19 +127,11 @@ const deleteOne = (req, res) => {
 
 const update = (req, res) => {
     //retrieve product id to update
-    let productId =  req.params.id;
+    let productId = req.params.id;
 
     //retrieve date from body
     let parameters = req.body;
-    //validate
-    try {
-        validateProduct( parameters);
-    } catch (error) {
-        return res.status(400).json({
-            status: "error",
-            menssage: "Missing parameter to send"
-        })
-    }    
+
     // Update
     Product
         .findOneAndUpdate({ _id: productId }, req.body, { new: true })
@@ -190,14 +182,12 @@ const uploadImage = (req, res) => {
             });
         });
     } else {
-
-
         //retrieve product id to update
-        let productId =  req.params.id;
+        let productId = req.params.id;
 
         // Update
         Product
-            .findOneAndUpdate({ _id: productId }, {image: req.file.originalname}, { new: true })
+            .findOneAndUpdate({ _id: productId }, { image: req.file.originalname }, { new: true })
             .then(productUpdated => {
                 if (!productUpdated) {
                     return res.status(500).json({
@@ -223,10 +213,10 @@ const uploadImage = (req, res) => {
 
 const image = (req, res) => {
     let fileData = req.params.file;
-    let allPath = "./images/products/"+fileData;
+    let allPath = "./images/products/" + fileData;
 
-    fs.stat(allPath, (error, exists)=> {
-        if(exists){
+    fs.stat(allPath, (error, exists) => {
+        if (exists) {
             return res.sendFile(path.resolve(allPath));
         } else {
             return res.status(404).json({
@@ -244,11 +234,13 @@ const search = (req, res) => {
 
     // Find Or
     Product
-        .find({ "$or": [
-            { "name" : {"$regex": searchParam, "$options": "i"}},
-            { "description" : {"$regex": searchParam, "$options": "i"}}
-        ]})
-        .sort({date: -1})
+        .find({
+            "$or": [
+                { "name": { "$regex": searchParam, "$options": "i" } },
+                { "description": { "$regex": searchParam, "$options": "i" } }
+            ]
+        })
+        .sort({ date: -1 })
         .then(productsFound => {
             if (!productsFound || productsFound.length === 0) {
                 return res.status(404).json({
@@ -258,7 +250,7 @@ const search = (req, res) => {
             }
 
             return res.status(200).json({
-                status: "success",
+                status: "Success",
                 products: productsFound
             });
         })

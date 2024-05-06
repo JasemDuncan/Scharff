@@ -2,6 +2,8 @@
 const connection = require("./database/connection");
 const express =require("express");
 const cors = require("cors");
+const https = require("https");
+const fs = require("fs");
 //welcome message
 console.log("API NODE for Dark Store loaded")
 //db conection
@@ -9,7 +11,7 @@ connection();
 
 //create node server
 const app = express();
-const port = 3900;
+const port = 443;
 //configure cors
 app.use(cors());
 
@@ -23,15 +25,17 @@ const routes_product = require("./routes/product");
 //load routes
 app.use("/api",routes_product);
 
-// app.get("/probando",(req, res)=>{
-//     console.log("Endpoint loaded");
-//     return res.status(200).send({
-//         articles: "product 1",
-//         price:"100"
-//     });
-// });
+// Configurar opciones para HTTPS
+const options = {
+    key: fs.readFileSync("server.key"),      // Ruta a tu clave privada
+    cert: fs.readFileSync("server.cert")     // Ruta a tu certificado
+  };
+  
+  // Crear servidor HTTPS
+  const server = https.createServer(options, app);
+
 
 //server listening for http request
-app.listen(port, ()=>{
+server.listen(port, ()=>{
     console.log("Server running in port:"+port);
 });

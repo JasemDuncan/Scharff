@@ -3,10 +3,10 @@ const validator = require("validator");
 const validateProduct = (parameters) => {
   
     let validate_name = !validator.isEmpty(parameters.name) &&
-        validator.isLength(parameters.name,{min:5, max:100});
-    let validate_description= !validator.isEmpty(parameters.description);
+        validator.isLength(parameters.name,{min:1, max:100});
+  
 
-    if(!validate_name || !validate_description){
+    if(!validate_name ){
         throw new Error("No data validation");
     }
 }
