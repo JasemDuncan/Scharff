@@ -1,7 +1,9 @@
 # 🚀  Dark Store 
     This project was created MERN STAK( Mongo, Express, React, and NodeJS) for a Dark Store.
 
-    A "Dark Store" is a retail facility closed to the public, exclusively used for online order fulfillment. Employees pick and pack products for online orders, optimizing efficiency in the e-commerce supply chain.
+    A "Dark Store" is a retail facility closed to the public, exclusively used for online order 
+    fulfillment. Employees pick and pack products for online orders, optimizing efficiency 
+    in the e-commerce supply chain.
 
 ## 👉 Instructions to Run it on Your Local Machine
 ​
@@ -22,7 +24,7 @@ To have a version on you local machine:
 - Search: GET https://localhost/api/search/:search
 
 ## ✒️ Frontend
-![Main Image](main.png)
+![screenshot](main.PNG)
 
 ## 💻 Deployment
 ### With Docker
